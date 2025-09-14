@@ -26,10 +26,10 @@ RESPONSES = {
     "tanglish": "Inga da timetable link 👉 http://college.com/timetable"
   },
   "admission": {
-    "en": "Admission process will start next month. Apply here 👉 http://college.com/admission",
-    "ta": "சேர்க்கை செயல்முறை அடுத்த மாதம் தொடங்கும். இங்கே விண்ணப்பியுங்கள் 👉 http://college.com/admission",
-    "hi": "प्रवेश प्रक्रिया अगले महीने शुरू होगी। यहाँ आवेदन करें 👉 http://college.com/admission",
-    "tanglish": "Admission process next month start aagum da. Apply pannunga 👉 http://college.com/admission"
+    "en": "Admission process will start next month. Apply here 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
+    "ta": "சேர்க்கை செயல்முறை அடுத்த மாதம் தொடங்கும். இங்கே விண்ணப்பியுங்கள் 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
+    "hi": "प्रवेश प्रक्रिया अगले महीने शुरू होगी। यहाँ आवेदन करें 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
+    "tanglish": "Admission process next month start aagum da. Apply pannunga 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/"
   },
   "hostel": {
     "en": "Yes, hostel facilities are available for both boys and girls.",
