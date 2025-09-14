@@ -1,15 +1,13 @@
 import streamlit as st
-from transformers import pipeline
+from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
 from langdetect import detect, DetectorFactory
-import re
-import html
+import re, html, time
 
-# make langdetect deterministic
+# deterministic langdetect
 DetectorFactory.seed = 0
 
 st.set_page_config(page_title="🇮🇳 College Info Chatbot", page_icon="🤖", layout="centered")
-
-st.title("🤖 Multilingual College Chatbot (MarianMT + KB)")
+st.title("🤖 Multilingual College Chatbot (MarianMT + KB) — No API key needed")
 
 # ---------------------------
 # Knowledge base (user-provided)
@@ -73,7 +71,6 @@ RESPONSES = {
 
 # ---------------------------
 # Supported Marian models map for translation to/from English
-# (only load when needed and cached)
 # ---------------------------
 MARIAN_TO_EN = {
     "hi": "Helsinki-NLP/opus-mt-hi-en",
@@ -105,88 +102,86 @@ MARIAN_FROM_EN = {
     "as": "Helsinki-NLP/opus-mt-en-as"
 }
 
-# cache translation pipelines
+# ---------------------------
+# Cache translation pipelines
+# ---------------------------
 @st.cache_resource
 def get_translation_pipeline(model_name):
+    # small wrapper so pipeline is cached by model_name
     return pipeline("translation", model=model_name)
 
 # ---------------------------
-# Intent keywords (English) for simple mapping
+# Simple intent keywords (English) for mapping to KB
 # ---------------------------
 INTENT_KEYWORDS = {
-    "fees": ["fee", "fees", "semester fee", "tuition", "pay", "price", "kattam", "fee?"],
+    "fees": ["fee", "fees", "semester fee", "tuition", "pay", "kattam", "varga", "charges"],
     "timetable": ["timetable", "time table", "schedule", "class timing", "timetable"],
     "admission": ["admission", "apply", "application", "enroll", "entry"],
     "hostel": ["hostel", "dorm", "accommodation", "stay"],
-    "library": ["library", "books", "library timing", "reading room"],
+    "library": ["library", "books", "reading", "study room"],
     "bus": ["bus", "transport", "shuttle", "route"],
     "canteen": ["canteen", "food", "mess", "snack"],
     "results": ["result", "results", "marks", "grades"],
     "exam": ["exam", "exams", "semester exam", "test", "hall ticket"]
 }
 
-# flatten keywords to allow quick check
-ALL_KEYWORDS = []
-for klist in INTENT_KEYWORDS.values():
-    ALL_KEYWORDS += klist
-
-# ---------------------------
-# Helper functions
-# ---------------------------
 def clean_text(s: str) -> str:
     s = html.unescape(s)
     s = s.lower().strip()
-    s = re.sub(r"http\S+", " ", s)  # remove urls for matching
+    s = re.sub(r"http\S+", " ", s)
     s = re.sub(r"[^\w\s']", " ", s)
     s = re.sub(r"\s+", " ", s)
     return s
 
 def detect_language_safe(text: str) -> str:
     try:
-        return detect(text)
+        lang = detect(text)
+        return lang
     except:
         return "en"
 
 def translate_to_english(text: str, lang: str) -> str:
-    """If we have a Marian model for lang->en, use it, else return original text."""
-    if lang == "en":
+    if not text or lang == "en":
         return text
     model_name = MARIAN_TO_EN.get(lang)
     if not model_name:
         return text
-    pipe = get_translation_pipeline(model_name)
-    out = pipe(text, max_length=512)
-    # some pipelines return list of dicts
-    if isinstance(out, list):
-        return out[0].get("translation_text", str(out[0]))
-    if isinstance(out, dict):
-        return out.get("translation_text", str(out))
-    return str(out)
+    try:
+        pipe = get_translation_pipeline(model_name)
+        out = pipe(text, max_length=512)
+        if isinstance(out, list):
+            return out[0].get("translation_text", str(out[0]))
+        if isinstance(out, dict):
+            return out.get("translation_text", str(out))
+        return str(out)
+    except Exception as e:
+        # on failure, return original text
+        return text
 
 def translate_from_english(text: str, target_lang: str) -> str:
-    """Translate English text to target_lang if model exists, else return English."""
-    if target_lang == "en":
+    if not text or target_lang == "en":
         return text
     model_name = MARIAN_FROM_EN.get(target_lang)
     if not model_name:
         return text
-    pipe = get_translation_pipeline(model_name)
-    out = pipe(text, max_length=512)
-    if isinstance(out, list):
-        return out[0].get("translation_text", str(out[0]))
-    if isinstance(out, dict):
-        return out.get("translation_text", str(out))
-    return str(out)
+    try:
+        pipe = get_translation_pipeline(model_name)
+        out = pipe(text, max_length=512)
+        if isinstance(out, list):
+            return out[0].get("translation_text", str(out[0]))
+        if isinstance(out, dict):
+            return out.get("translation_text", str(out))
+        return str(out)
+    except Exception as e:
+        return text
 
 def match_intent(english_text: str) -> str:
-    """Simple keyword-based intent classification returning one of RESPONSES keys or None."""
     txt = clean_text(english_text)
-    # direct keyword check (longest match first)
     for intent, kws in INTENT_KEYWORDS.items():
         for kw in kws:
             if kw in txt:
                 return intent
-    # fallback: check single-word contains any keyword substring
+    # fallback: word-level fuzzy
     words = txt.split()
     for intent, kws in INTENT_KEYWORDS.items():
         for kw in kws:
@@ -196,58 +191,86 @@ def match_intent(english_text: str) -> str:
     return None
 
 # ---------------------------
-# UI
+# Simple English fallback chatbot model (DialoGPT-small)
 # ---------------------------
-st.markdown("**Instructions:** Type your question in any Indian language (e.g., Tamil, Hindi, Telugu, Malayalam, Kannada, Bengali, Gujarati, Marathi, Punjabi, Urdu, Odia, Assamese, or English).")
+@st.cache_resource
+def load_fallback_chatbot():
+    model_name = "microsoft/DialoGPT-small"
+    tok = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForCausalLM.from_pretrained(model_name)
+    return tok, model
+
+# load once (may download ~200-400MB)
+with st.spinner("Loading fallback chatbot model (first run may take time)..."):
+    try:
+        tokenizer, chatbot_model = load_fallback_chatbot()
+    except Exception as e:
+        st.error("Failed to load fallback chatbot model: " + str(e))
+        tokenizer, chatbot_model = None, None
+
+def chatbot_response(prompt: str) -> str:
+    if tokenizer is None or chatbot_model is None:
+        return "Sorry, chatbot brain not available right now."
+    try:
+        inputs = tokenizer.encode(prompt + tokenizer.eos_token, return_tensors="pt")
+        outputs = chatbot_model.generate(inputs, max_length=300, pad_token_id=tokenizer.eos_token_id)
+        # decode only the generated part (after the input)
+        reply = tokenizer.decode(outputs[:, inputs.shape[-1]:][0], skip_special_tokens=True)
+        return reply.strip()
+    except Exception as e:
+        return "Sorry, failed to generate reply."
+
+# ---------------------------
+# UI & Chat loop
+# ---------------------------
+st.markdown("**Instructions:** Type your question in any Indian language (e.g., Tamil, Hindi, Telugu, Malayalam, Kannada, Bengali, Gujarati, Marathi, Punjabi, Urdu, Odia, Assamese) or in English.")
 use_tanglish = st.checkbox("Prefer Tanglish responses (if available)", value=False)
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# show chat history
-for msg in st.session_state.messages:
-    with st.chat_message(msg["role"]):
-        st.markdown(msg["content"])
+# show history
+for m in st.session_state.messages:
+    with st.chat_message(m["role"]):
+        st.markdown(m["content"])
 
-# user input
+# input
 if user_input := st.chat_input("Ask about fees, timetable, admission, hostel, library, bus, canteen, results, exam..."):
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.chat_message("user"):
         st.markdown(user_input)
 
     # detect language
-    lang = detect_language_safe(user_input)
-    # if detect returns something like 'en' or 'ta' etc.
-    # translate to English for intent detection (if model available)
+    lang = detect_language_safe(user_input)  # lang codes like 'ta', 'hi', 'en' etc.
+    # for some languages detect gives 'bn' etc. we already handle many mappings
+
+    # translate to english for intent detection
     english_text = translate_to_english(user_input, lang)
 
-    # intent detection
+    # detect intent
     intent = match_intent(english_text)
 
+    # prepare reply
     if intent:
-        # choose the best language key for reply
-        reply_text = None
-        # if user prefers tanglish and tanglish exists
+        # prefer tanglish if user asked and KB has tanglish
         if use_tanglish and "tanglish" in RESPONSES[intent]:
             reply_text = RESPONSES[intent]["tanglish"]
-        # if exact language exists in KB
+        # if KB has exact language reply (ta/hi/en) use it
         elif lang in RESPONSES[intent]:
             reply_text = RESPONSES[intent][lang]
-        # fallback to english in KB
-        elif "en" in RESPONSES[intent]:
-            # if requested language not in KB, translate the English KB reply into user language (if possible)
-            en_reply = RESPONSES[intent]["en"]
+        else:
+            # fallback: translate KB english reply to user's language (if model exist)
+            en_reply = RESPONSES[intent].get("en", "")
             translated = translate_from_english(en_reply, lang)
             reply_text = translated if translated else en_reply
-        else:
-            reply_text = "Sorry, I don't have that information right now."
-
     else:
-        # no intent matched: give polite fallback
-        # We attempt a fuzzy fallback by scanning for small hints (e.g., numbers, 'admission', urls)
-        fallback = "Sorry da, mudiyala exact-a puriyala. Please ask about fees, timetable, admission, hostel, library, bus, canteen, results, or exam."
-        # try to return fallback in user's language if model exists
-        reply_text = translate_from_english(fallback, lang)
+        # no KB intent matched -> use fallback chatbot
+        # get english fallback prompt
+        fallback_prompt = english_text if english_text.strip() else "Hello"
+        bot_en = chatbot_response(fallback_prompt)
+        # translate back to user language if possible
+        bot_translated = translate_from_english(bot_en, lang)
+        reply_text = bot_translated if bot_translated else bot_en
 
     # append & display
     st.session_state.messages.append({"role": "assistant", "content": reply_text})
