@@ -17,46 +17,19 @@ RESPONSES = {
     "en": "Semester fees is ₹15000. You can pay online.",
     "ta": "Semester fees ₹15000. Online la pay panna mudiyum.",
     "hi": "semestar kee phees ₹15000 hai. aap onalain bhugataan kar sakate hain.",
-    "tanglish": "Semester fees ₹15000 da 😎. Online la pay panna mudiyum.",
-    "kn": "Semester fees ₹15000. Nivu online mEle pay maadabahudu",
-    "ml": "Semester fees ₹15000. Nee online-il pay cheyyam",
-    "bn": "Semester fees ₹15000. Apni online pay korte paren",
-    "gu": "Semester fees ₹15000. Tame online pay kari shako cho",
-    "mr": "Semester fees ₹15000. Tumhi online pay karu shakta",
-    "pa": "Semester fees ₹15000. Tusi online pay kar sakde ho",
-    "ur": "Semester fees ₹15000. Aap online pay kar saktay hain",
-    "or": "Semester fees ₹15000. Apan online pay kariparibe",
-    "as": "Semester fees ₹15000. Apuni online pay koribo paribo"
+    "tanglish": "Semester fees ₹15000 da 😎. Online la pay panna mudiyum."
   },
   "timetable": {
     "en": "Here is the timetable 👉 http://college.com/timetable",
     "ta": "இங்கே டைம் டேபிள் 👉 http://college.com/timetable",
     "hi": "yahaan taimatebal hai 👉 http://college.com/timetable",
-    "tanglish": "Inga da timetable link 👉 http://college.com/timetable",
-    "kn": "Ivatthu timetable idhe 👉 http://college.com/timetable",
-    "ml": "Ivide timetable aanu 👉 http://college.com/timetable",
-    "bn": "Ekhane timetable ache 👉 http://college.com/timetable",
-    "gu": "Ahiyan timetable chhe 👉 http://college.com/timetable",
-    "mr": "Ithe timetable aahe 👉 http://college.com/timetable",
-    "pa": "Ithe timetable hai 👉 http://college.com/timetable",
-    "ur": "Yahaan timetable hai 👉 http://college.com/timetable",
-    "or": "Ethe timetable achhi 👉 http://college.com/timetable",
-    "as": "Ekhane timetable ase 👉 http://college.com/timetable"
+    "tanglish": "Inga da timetable link 👉 http://college.com/timetable"
   },
   "admission": {
     "en": "Admission process will start next month. Apply here 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
     "ta": "சேர்க்கை செயல்முறை அடுத்த மாதம் தொடங்கும். இங்கே விண்ணப்பியுங்கள் 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
     "hi": "pravesh prakriya agale maheene shuroo hogee. yahaan aavedan karen 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
     "tanglish": "Admission process next month start aagum da. Apply pannunga 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
-    "kn": "Next month admission process aarambhavagutte. Ille apply maadi 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
-    "ml": "Next month admission process thudangum. Ivide apply cheyyuka 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
-    "bn": "Agami maashe admission process shuru hobe. Ekhane apply korun 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
-    "gu": "Aavti maheena maadhe admission process sharu thashe. Ahiyan apply karo 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
-    "mr": "Pudhil mahinyat admission process suru hoil. Ithe apply kara 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
-    "pa": "Agla mahina admission process shuru hovega. Ithe apply karo 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
-    "ur": "Agla mahina admission process shuru hogi. Yahaan apply karein 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
-    "or": "Aagami maas re admission process suru heba. Ethe apply karantu 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
-    "as": "Agami maasot admission process suru hobo. Ekhane apply korun 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/"
   },
   "hostel": {
     "en": "Yes, hostel facilities are available for both boys and girls.",
