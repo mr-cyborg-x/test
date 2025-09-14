@@ -1,8 +1,4 @@
 streamlit
-langchain
-faiss-cpu
-sentence-transformers
-langdetect
-googletrans==4.0.0-rc1
-PyPDF2
+langchain==0.0.350
 openai
+pydantic<2
