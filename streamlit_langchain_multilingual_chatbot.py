@@ -7,7 +7,7 @@ import re, html, time
 DetectorFactory.seed = 0
 
 st.set_page_config(page_title="🇮🇳 College Info Chatbot", page_icon="🤖", layout="centered")
-st.title("🤖 Multilingual College Chatbot (MarianMT + KB) — No API key needed")
+st.title("Conversa AI-Multilingual")
 
 # ---------------------------
 # Knowledge base (user-provided)
@@ -15,58 +15,129 @@ st.title("🤖 Multilingual College Chatbot (MarianMT + KB) — No API key neede
 RESPONSES = {
   "fees": {
     "en": "Semester fees is ₹15000. You can pay online.",
-    "ta": "செமஸ்டர் கட்டணம் ₹15000. ஆன்லைனில் செலுத்தலாம்.",
-    "hi": "सेमेस्टर की फीस ₹15000 है। आप ऑनलाइन भुगतान कर सकते हैं।",
-    "tanglish": "Semester fees ₹15000 da 😎. Online la pay panna mudiyum."
+    "ta": "Semester fees ₹15000. Online la pay panna mudiyum.",
+    "hi": "semestar kee phees ₹15000 hai. aap onalain bhugataan kar sakate hain.",
+    "tanglish": "Semester fees ₹15000 da 😎. Online la pay panna mudiyum.",
+    "kn": "Semester fees ₹15000. Nivu online mEle pay maadabahudu",
+    "ml": "Semester fees ₹15000. Nee online-il pay cheyyam",
+    "bn": "Semester fees ₹15000. Apni online pay korte paren",
+    "gu": "Semester fees ₹15000. Tame online pay kari shako cho",
+    "mr": "Semester fees ₹15000. Tumhi online pay karu shakta",
+    "pa": "Semester fees ₹15000. Tusi online pay kar sakde ho",
+    "ur": "Semester fees ₹15000. Aap online pay kar saktay hain",
+    "or": "Semester fees ₹15000. Apan online pay kariparibe",
+    "as": "Semester fees ₹15000. Apuni online pay koribo paribo"
   },
   "timetable": {
     "en": "Here is the timetable 👉 http://college.com/timetable",
     "ta": "இங்கே டைம் டேபிள் 👉 http://college.com/timetable",
-    "hi": "यहाँ टाइमटेबल है 👉 http://college.com/timetable",
-    "tanglish": "Inga da timetable link 👉 http://college.com/timetable"
+    "hi": "yahaan taimatebal hai 👉 http://college.com/timetable",
+    "tanglish": "Inga da timetable link 👉 http://college.com/timetable",
+    "kn": "Ivatthu timetable idhe 👉 http://college.com/timetable",
+    "ml": "Ivide timetable aanu 👉 http://college.com/timetable",
+    "bn": "Ekhane timetable ache 👉 http://college.com/timetable",
+    "gu": "Ahiyan timetable chhe 👉 http://college.com/timetable",
+    "mr": "Ithe timetable aahe 👉 http://college.com/timetable",
+    "pa": "Ithe timetable hai 👉 http://college.com/timetable",
+    "ur": "Yahaan timetable hai 👉 http://college.com/timetable",
+    "or": "Ethe timetable achhi 👉 http://college.com/timetable",
+    "as": "Ekhane timetable ase 👉 http://college.com/timetable"
   },
   "admission": {
     "en": "Admission process will start next month. Apply here 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
     "ta": "சேர்க்கை செயல்முறை அடுத்த மாதம் தொடங்கும். இங்கே விண்ணப்பியுங்கள் 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
-    "hi": "प्रवेश प्रक्रिया अगले महीने शुरू होगी। यहाँ आवेदन करें 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
-    "tanglish": "Admission process next month start aagum da. Apply pannunga 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/"
+    "hi": "pravesh prakriya agale maheene shuroo hogee. yahaan aavedan karen 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
+    "tanglish": "Admission process next month start aagum da. Apply pannunga 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
+    "kn": "Next month admission process aarambhavagutte. Ille apply maadi 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
+    "ml": "Next month admission process thudangum. Ivide apply cheyyuka 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
+    "bn": "Agami maashe admission process shuru hobe. Ekhane apply korun 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
+    "gu": "Aavti maheena maadhe admission process sharu thashe. Ahiyan apply karo 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
+    "mr": "Pudhil mahinyat admission process suru hoil. Ithe apply kara 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
+    "pa": "Agla mahina admission process shuru hovega. Ithe apply karo 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
+    "ur": "Agla mahina admission process shuru hogi. Yahaan apply karein 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
+    "or": "Aagami maas re admission process suru heba. Ethe apply karantu 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/",
+    "as": "Agami maasot admission process suru hobo. Ekhane apply korun 👉 https://www.srcas.ac.in/admission/admission-policy-and-process/"
   },
   "hostel": {
     "en": "Yes, hostel facilities are available for both boys and girls.",
     "ta": "ஆம், ஆண்கள் மற்றும் பெண்களுக்கு விடுதி வசதிகள் உள்ளன.",
-    "hi": "हाँ, लड़कों और लड़कियों दोनों के लिए हॉस्टल की सुविधा उपलब्ध है।",
-    "tanglish": "Hostel iruku da boys and girls ku rendu perukum 😇."
+    "hi": "pravesh prakriya agale maheene shuroo hogee. yahaan aavedan karen",
+    "tanglish": "Hostel iruku da boys and girls ku rendu perukum 😇.",
+    "kn": "Ho hostel suvidhagala both boys matthu girls ge available ide.",
+    "ml": "Athu hostel suvidhakal randu boysum girlsum available aanu.",
+    "bn": "Haan hostel facilities dono boys ebong girls er jonno available ache.",
+    "gu": "Ha hostel facilities boys ane girls mate available chhe.",
+    "mr": "Ho hostel suvidha boys ani girls sathi available ahe.",
+    "pa": "Haan hostel facilities dono boys te girls layi available han.",
+    "ur": "Haan hostel facilities dono boys aur girls ke liye available hain.",
+    "or": "Ho hostel suvidhaguloo boys o girls pain available achhi.",
+    "as": "Ho hostel suvidha dono boys aru girls karone available ase."
   },
   "library": {
     "en": "Library is open from 9 AM to 6 PM on weekdays.",
     "ta": "நூலகம் வார நாட்களில் காலை 9 மணி முதல் மாலை 6 மணி வரை திறந்திருக்கும்.",
-    "hi": "लाइब्रेरी सप्ताह के दिनों में सुबह 9 बजे से शाम 6 बजे तक खुली रहती है।",
-    "tanglish": "Library 9 AM la open agum, 6 PM varaikum irukum weekdays la 📚."
+    "hi": "laibreree saptaah ke dinon mein subah 9 baje se shaam 6 baje tak khulee rahatee hai.",
+    "tanglish": "Library 9 AM la open agum, 6 PM varaikum irukum weekdays la 📚.",
+    "kn": "Library 9 AM inda 6 PM vare weekdays ge open ide.",
+    "ml": "Library 9 AM ninnu 6 PM vare weekdays-il open aanu.",
+    "bn": "Library 9 AM theke 6 PM porjonto weekdays e open ache.",
+    "gu": "Library 9 AM thi 6 PM sudhi weekdays ma open chhe.",
+    "mr": "Library 9 AM pasun 6 PM paryant weekdays sathi open ahe.",
+    "pa": "Library 9 AM ton 6 PM tak weekdays layi open han.",
+    "ur": "Library 9 AM se 6 PM tak weekdays ke liye open hai.",
+    "or": "Library 9 AM ru 6 PM paryanta weekdays re open achhi.",
+    "as": "Library 9 AM pora 6 PM porjonto weekdays khula ase."
   },
   "bus": {
     "en": "College bus service is available for all major city routes.",
     "ta": "முக்கிய நகர வழித்தடங்களுக்கு கல்லூரி பேருந்து சேவை உள்ளது.",
-    "hi": "कॉलेज बस सेवा सभी प्रमुख शहर मार्गों के लिए उपलब्ध है।",
-    "tanglish": "College bus major city routes ku available da 🚌."
+    "hi": "kolej bas seva sabhee pramukh shahar maargon ke lie upalabdh hai.",
+    "tanglish": "College bus major city routes ku available da 🚌.",
+    "kn": "College bus service ella major city routes ge available ide.",
+    "ml": "College bus service ella major city routes-il available aanu.",
+    "bn": "College bus service shob major city routes er jonno available ache.",
+    "gu": "College bus service badha major city routes mate available chhe.",
+    "mr": "College bus service saglya major city routes sathi available ahe.",
+    "pa": "College bus service sare major city routes layi available han.",
+    "ur": "College bus service sab major city routes ke liye available hain.",
+    "or": "College bus service samasta major city routes pain available achhi.",
+    "as": "College bus service sob major city routes karone available ase."
   },
   "canteen": {
     "en": "Canteen provides fresh and affordable food for students.",
     "ta": "மாணவர்களுக்கு புது மற்றும் மலிவு உணவு உணவகம் வழங்குகிறது.",
-    "hi": "कैंटीन छात्रों को ताज़ा और किफायती खाना उपलब्ध कराती है।",
+    "hi": "kainteen chhaatron ko taaza aur kiphaayatee khaana upalabdh karaatee hai.",
     "tanglish": "Canteen la fresh ahum cheap ahum food kadaikidum da 🍔."
   },
   "results": {
     "en": "Results will be published online on the college website.",
     "ta": "முடிவுகள் கல்லூரி இணையதளத்தில் ஆன்லைனில் வெளியிடப்படும்.",
-    "hi": "परिणाम कॉलेज वेबसाइट पर ऑनलाइन प्रकाशित किए जाएंगे।",
-    "tanglish": "Results online la publish panniduvanga da college site la 📢."
+    "hi": "parinaam kolej vebasait par onalain prakaashit kie jaenge.",
+    "tanglish": "Results online la publish panniduvanga da college site la 📢.",
+    "kn": "Results online college website mele publish aagutte.",
+    "ml": "Results online college website-il publish cheyyapetum.",
+    "bn": "Results online college website-e publish hobe.",
+    "gu": "Results online college website par publish thashe.",
+    "mr": "Results online college website var publish honaar.",
+    "pa": "Results online college website te publish honge.",
+    "ur": "Results online college website par publish honge.",
+    "or": "Results online college website re publish heba.",
+    "as": "Results online college website ot publish hobo."
   },
   "exam": {
     "en": "Semester exams will begin from December 10th.",
     "ta": "செமஸ்டர் தேர்வுகள் டிசம்பர் 10 முதல் தொடங்கும்.",
-    "hi": "सेमेस्टर की परीक्षाएँ 10 दिसंबर से शुरू होंगी।",
-    "tanglish": "Semester exam December 10th la start agum da ✍️."
-  }
+    "hi": "semestar kee pareekshaen 10 disambar se shuroo hongee.",
+    "tanglish": "Semester exam December 10th la start agum da ✍️.",
+    "kn": "Semester exams December 10th inda aarambhavagutte.",
+    "ml": "Semester exams December 10th ninnu thudangum.",  
+    "bn": "Semester exams December 10th theke shuru hobe.",
+    "gu": "Semester exams December 10th thi sharu thashe.",
+    "mr": "Semester exams December 10th pasun suru honaar.",
+    "pa": "Semester exams December 10th ton shuru honge.",
+    "ur": "Semester exams December 10th se shuru honge.",
+    "or": "Semester exams December 10th ru suru heba.",
+    "as": "Semester exams December 10th pora suru hobo."
 }
 
 # ---------------------------
