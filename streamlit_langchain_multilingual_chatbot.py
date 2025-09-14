@@ -35,91 +35,38 @@ RESPONSES = {
     "en": "Yes, hostel facilities are available for both boys and girls.",
     "ta": "ஆம், ஆண்கள் மற்றும் பெண்களுக்கு விடுதி வசதிகள் உள்ளன.",
     "hi": "pravesh prakriya agale maheene shuroo hogee. yahaan aavedan karen",
-    "tanglish": "Hostel iruku da boys and girls ku rendu perukum 😇.",
-    "kn": "Ho hostel suvidhagala both boys matthu girls ge available ide.",
-    "ml": "Athu hostel suvidhakal randu boysum girlsum available aanu.",
-    "bn": "Haan hostel facilities dono boys ebong girls er jonno available ache.",
-    "gu": "Ha hostel facilities boys ane girls mate available chhe.",
-    "mr": "Ho hostel suvidha boys ani girls sathi available ahe.",
-    "pa": "Haan hostel facilities dono boys te girls layi available han.",
-    "ur": "Haan hostel facilities dono boys aur girls ke liye available hain.",
-    "or": "Ho hostel suvidhaguloo boys o girls pain available achhi.",
-    "as": "Ho hostel suvidha dono boys aru girls karone available ase."
+    "tanglish": "Hostel iruku da boys and girls ku rendu perukum 😇."
   },
   "library": {
     "en": "Library is open from 9 AM to 6 PM on weekdays.",
     "ta": "நூலகம் வார நாட்களில் காலை 9 மணி முதல் மாலை 6 மணி வரை திறந்திருக்கும்.",
     "hi": "laibreree saptaah ke dinon mein subah 9 baje se shaam 6 baje tak khulee rahatee hai.",
     "tanglish": "Library 9 AM la open agum, 6 PM varaikum irukum weekdays la 📚.",
-    "kn": "Library 9 AM inda 6 PM vare weekdays ge open ide.",
-    "ml": "Library 9 AM ninnu 6 PM vare weekdays-il open aanu.",
-    "bn": "Library 9 AM theke 6 PM porjonto weekdays e open ache.",
-    "gu": "Library 9 AM thi 6 PM sudhi weekdays ma open chhe.",
-    "mr": "Library 9 AM pasun 6 PM paryant weekdays sathi open ahe.",
-    "pa": "Library 9 AM ton 6 PM tak weekdays layi open han.",
-    "ur": "Library 9 AM se 6 PM tak weekdays ke liye open hai.",
-    "or": "Library 9 AM ru 6 PM paryanta weekdays re open achhi.",
-    "as": "Library 9 AM pora 6 PM porjonto weekdays khula ase."
+    "kn": "Library 9 AM inda 6 PM vare weekdays ge open ide."
   },
   "bus": {
     "en": "College bus service is available for all major city routes.",
     "ta": "முக்கிய நகர வழித்தடங்களுக்கு கல்லூரி பேருந்து சேவை உள்ளது.",
     "hi": "kolej bas seva sabhee pramukh shahar maargon ke lie upalabdh hai.",
-    "tanglish": "College bus major city routes ku available da 🚌.",
-    "kn": "College bus service ella major city routes ge available ide.",
-    "ml": "College bus service ella major city routes-il available aanu.",
-    "bn": "College bus service shob major city routes er jonno available ache.",
-    "gu": "College bus service badha major city routes mate available chhe.",
-    "mr": "College bus service saglya major city routes sathi available ahe.",
-    "pa": "College bus service sare major city routes layi available han.",
-    "ur": "College bus service sab major city routes ke liye available hain.",
-    "or": "College bus service samasta major city routes pain available achhi.",
-    "as": "College bus service sob major city routes karone available ase."
+    "tanglish": "College bus major city routes ku available da 🚌."
   },
   "canteen": {
     "en": "Canteen provides fresh and affordable food for students.",
     "ta": "மாணவர்களுக்கு புது மற்றும் மலிவு உணவு உணவகம் வழங்குகிறது.",
     "hi": "kainteen chhaatron ko taaza aur kiphaayatee khaana upalabdh karaatee hai.",
-    "tanglish": "Canteen la fresh ahum cheap ahum food kadaikidum da 🍔.",
-    "kn": "Canteen students ge fresh mattu affordable food provide maadutte.",
-    "ml": "Canteen studentsinu fresh um affordable um food provide cheyyunnu.",
-    "bn": "Canteen students er jonno fresh ebong affordable food provide kore.",
-    "gu": "Canteen students mate fresh ane affordable food provide kare chhe.",
-    "mr": "Canteen students sathi fresh ani affordable food provide karte.",
-    "pa": "Canteen students layi fresh te affordable food provide karda hai.",
-    "ur": "Canteen students ke liye fresh aur affordable food provide karta hai.",
-    "or": "Canteen students pain fresh o affordable food provide karuchi.",
-    "as": "Canteen students karone fresh aru affordable food provide kore."
+    "tanglish": "Canteen la fresh ahum cheap ahum food kadaikidum da 🍔."
   },
   "results": {
     "en": "Results will be published online on the college website.",
     "ta": "முடிவுகள் கல்லூரி இணையதளத்தில் ஆன்லைனில் வெளியிடப்படும்.",
     "hi": "parinaam kolej vebasait par onalain prakaashit kie jaenge.",
-    "tanglish": "Results online la publish panniduvanga da college site la 📢.",
-    "kn": "Results online college website mele publish aagutte.",
-    "ml": "Results online college website-il publish cheyyapetum.",
-    "bn": "Results online college website-e publish hobe.",
-    "gu": "Results online college website par publish thashe.",
-    "mr": "Results online college website var publish honaar.",
-    "pa": "Results online college website te publish honge.",
-    "ur": "Results online college website par publish honge.",
-    "or": "Results online college website re publish heba.",
-    "as": "Results online college website ot publish hobo."
+    "tanglish": "Results online la publish panniduvanga da college site la 📢."
   },
   "exam": {
     "en": "Semester exams will begin from December 10th.",
     "ta": "செமஸ்டர் தேர்வுகள் டிசம்பர் 10 முதல் தொடங்கும்.",
     "hi": "semestar kee pareekshaen 10 disambar se shuroo hongee.",
-    "tanglish": "Semester exam December 10th la start agum da ✍️.",
-    "kn": "Semester exams December 10th inda aarambhavagutte.",
-    "ml": "Semester exams December 10th ninnu thudangum.",  
-    "bn": "Semester exams December 10th theke shuru hobe.",
-    "gu": "Semester exams December 10th thi sharu thashe.",
-    "mr": "Semester exams December 10th pasun suru honaar.",
-    "pa": "Semester exams December 10th ton shuru honge.",
-    "ur": "Semester exams December 10th se shuru honge.",
-    "or": "Semester exams December 10th ru suru heba.",
-    "as": "Semester exams December 10th pora suru hobo."
+    "tanglish": "Semester exam December 10th la start agum da ✍️."
   },
 }
 # ---------------------------
