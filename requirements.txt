@@ -1,5 +1,5 @@
 streamlit
-langchian
+langchain
 langchain==0.0.350
 openai
 pydantic<2
