@@ -107,7 +107,16 @@ RESPONSES = {
     "en": "Canteen provides fresh and affordable food for students.",
     "ta": "மாணவர்களுக்கு புது மற்றும் மலிவு உணவு உணவகம் வழங்குகிறது.",
     "hi": "kainteen chhaatron ko taaza aur kiphaayatee khaana upalabdh karaatee hai.",
-    "tanglish": "Canteen la fresh ahum cheap ahum food kadaikidum da 🍔."
+    "tanglish": "Canteen la fresh ahum cheap ahum food kadaikidum da 🍔.",
+    "kn": "Canteen students ge fresh mattu affordable food provide maadutte.",
+    "ml": "Canteen studentsinu fresh um affordable um food provide cheyyunnu.",
+    "bn": "Canteen students er jonno fresh ebong affordable food provide kore.",
+    "gu": "Canteen students mate fresh ane affordable food provide kare chhe.",
+    "mr": "Canteen students sathi fresh ani affordable food provide karte.",
+    "pa": "Canteen students layi fresh te affordable food provide karda hai.",
+    "ur": "Canteen students ke liye fresh aur affordable food provide karta hai.",
+    "or": "Canteen students pain fresh o affordable food provide karuchi.",
+    "as": "Canteen students karone fresh aru affordable food provide kore."
   },
   "results": {
     "en": "Results will be published online on the college website.",
@@ -138,8 +147,8 @@ RESPONSES = {
     "ur": "Semester exams December 10th se shuru honge.",
     "or": "Semester exams December 10th ru suru heba.",
     "as": "Semester exams December 10th pora suru hobo."
+  },
 }
-
 # ---------------------------
 # Supported Marian models map for translation to/from English
 # ---------------------------
